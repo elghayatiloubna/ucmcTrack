@@ -26,7 +26,7 @@ class CameraPara:
         T = np.array(T)
 
         self.Ko = np.column_stack((R, T.T))
-        self.Ko = np.row_stack((self.Ko, np.array([0,0,0,1])))
+        self.Ko = np.vstack((self.Ko, np.array([0,0,0,1])))
 
         # 从文件中读取内参矩阵
         Ki = []

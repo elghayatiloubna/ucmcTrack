@@ -9,8 +9,11 @@ from .kalman import KalmanTracker,TrackStatus
 
 
 def linear_assignment(cost_matrix, thresh):
+    # If the cost matrix is empty, return empty matches and all indices as unmatched
     if cost_matrix.size == 0:
         return np.empty((0, 2), dtype=int), tuple(range(cost_matrix.shape[0])), tuple(range(cost_matrix.shape[1]))
+    
+    # Initialize lists for matches and unmatched indices
     matches, unmatched_a, unmatched_b = [], [], []
     cost, x, y = lapjv(cost_matrix, extend_cost=True, cost_limit=thresh)
     for ix, mx in enumerate(x):

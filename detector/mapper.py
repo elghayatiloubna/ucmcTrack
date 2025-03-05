@@ -4,8 +4,10 @@ import os
 
 
 def getUVError(box):
-    u = 0.05*box[3]
-    v = 0.05*box[3]
+    #box = [x1,y1,width,hight]
+    u = 0.05*box[3] #Uncertainty in the horizontal direction.
+    v = 0.05*box[3] #Uncertainty in the vertical direction.
+    #to prevent the uncertainty from becoming too large or too small, the function clamps the values within certain bounds:
     if u>13:
         u = 13
     elif u<2:
@@ -16,6 +18,8 @@ def getUVError(box):
         v = 2
     return u,v
     
+# return to matrixy parseToMatrix("1 2 3 4 5 6", 2, 3) => [[1, 2, 3],
+                                    #[4, 5, 6]]
 
 def parseToMatrix(data, rows, cols):
     matrix_data = np.fromstring(data, sep=' ')
