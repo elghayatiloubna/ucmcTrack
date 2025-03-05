@@ -182,12 +182,26 @@ def main(args):
     cap.release()
     video_out.release()
     cv2.destroyAllWindows()
-
+                          # Helper function to convert NumPy types to native Python types
+    def convert_to_python_types(obj):
+        if isinstance(obj, np.generic):
+            return obj.item()  # Convert NumPy scalar to Python scalar
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()  # Convert NumPy array to Python list
+        elif isinstance(obj, dict):
+            return {key: convert_to_python_types(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_to_python_types(item) for item in obj]
+        else:
+            return obj
+        
     # Save the frame data to a JSON file
     output_json_path = "C:\\Users\\lenovo\\Desktop\\deepLeaf\\UCMCTrack\\output\\detections.json"
     with open(output_json_path, 'w') as json_file:
         json.dump(frame_data, json_file, indent=4)
-
+    # Convert all NumPy types to native Python types before saving
+    frame_data_converted = convert_to_python_types(frame_data)
+    json.dump(frame_data_converted, json_file, indent=4)
     print(f"Detection data saved to {output_json_path}")
 
 
